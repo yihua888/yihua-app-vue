@@ -1,8 +1,15 @@
 <template>
     <div class="box">
-        找不到页面...
-        <div class="back" @click="goback">
-            返回
+        <div>
+            <div class="info">
+                <Loading class="icon" />
+                <div class="text">
+                    找不到页面...
+                </div>
+            </div>
+            <div class="back" @click="goback">
+                返回
+            </div>
         </div>
     </div>
 </template>
@@ -15,19 +22,33 @@ const goback = () => router.go(-1)
 <style lang="scss" scoped>
 .box {
     height: 100%;
-    background: #CCC;
+    background: #FFF;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 40px;
-    color: rgb(255, 77, 0);
+    color: $blue;
+
+    .info{
+        display: flex;
+        line-height: 60px;
+        .icon{
+            width: 60px;
+            margin: 0 24px;
+        }
+        .text{
+            width: 450px;
+            font-size: 40px;
+            height: 60px;
+        }
+    }
 
     .back {
         font-size: 16px;
         margin: 20px;
         padding-top: 24px;
-        color: #00ff40;
+        color: $blue;
         cursor: pointer;
+        text-align: end;
     }
 }
 </style>

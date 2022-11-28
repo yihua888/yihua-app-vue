@@ -71,6 +71,8 @@ const handleExitClick = () => {
 
     .content {
         flex: 1;
+        background-color: $bgc;
+        overflow: hidden;
     }
 }
 </style>

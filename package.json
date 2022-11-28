@@ -8,7 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "prettier": "prettier --write",
-    "commit":"git-cz"
+    "commit": "git-cz"
   },
   "config": {
     "commitizen": {
@@ -17,21 +17,31 @@
   },
   "lint-staged": {
     "*.{js}": [
-          "npm run eslint",
-          "npm run prettier"
+      "npm run eslint",
+      "npm run prettier"
     ]
   },
   "dependencies": {
+    "@codemirror/lang-javascript": "^6.1.1",
+    "@codemirror/lang-sql": "^6.3.3",
+    "@codemirror/theme-one-dark": "^6.1.0",
     "@vueuse/core": "^9.6.0",
     "axios": "^1.2.0",
     "element-plus": "^2.2.25",
+    "fast-glob": "^3.2.12",
+    "godb": "^0.6.2",
+    "lodash": "^4.17.21",
     "normalize": "^0.3.1",
     "normalize.css": "^8.0.1",
     "pinia": "^2.0.27",
     "sass": "^1.56.1",
     "sass-loader": "^13.2.0",
+    "vite-plugin-svg-icons": "^2.0.1",
     "vue": "^3.2.41",
-    "vue-router": "^4.1.6"
+    "vue-codemirror": "^6.1.1",
+    "vue-router": "^4.1.6",
+    "vuedraggable": "^2.24.3",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.3.0",

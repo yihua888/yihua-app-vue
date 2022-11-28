@@ -11,6 +11,9 @@ import style from './style/main.scss'
 // 全局
 import { globalRegister } from './global'
 
+// svg处理
+import 'virtual:svg-icons-register'
+
 // 创建vue实例
 const app = createApp(App)
 
