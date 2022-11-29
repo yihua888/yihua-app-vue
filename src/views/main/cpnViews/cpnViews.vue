@@ -18,7 +18,7 @@ const cpnList = ref([])
 cpnList.value = cpns
 config.tableConfig.listCount = cpnList.value.length
 const showCpn = (row) => {
-    
+    router.push('/main/cpnInfo/1')
 }
 const changePage = pageInfo => {
     // 发请求，更新数据

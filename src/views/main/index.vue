@@ -1,7 +1,7 @@
 <template>
     <div class="page">
         <div class="top">
-            <div>yihuaApp</div>
+            <div @click="toMain" class="main-box">yihuaApp</div>
             <div class="user-info">
                 <el-dropdown>
                     <span class="el-dropdown-link">
@@ -41,6 +41,8 @@ const handleExitClick = () => {
     router.push('/login')
 }
 
+const toMain = () => router.push('/main/system')
+
 </script>
 
 <style lang="scss" scoped>
@@ -48,6 +50,10 @@ const handleExitClick = () => {
     display: flex;
     height: 100%;
     flex-direction: column;
+
+    .main-box{
+        cursor: pointer;
+    }
 
     .top {
         display: flex;

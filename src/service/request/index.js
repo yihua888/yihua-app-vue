@@ -1,48 +1,76 @@
 import axios from 'axios'
+class YHRequest {
 
-class Request {
-    constructor(baseURL, timeout, requestSuccessFn, requestErrorFn, responseSuccessFn, responseErrorFn, headers = {}, withCredentials = true) {
-        this.request = axios.create({
-            baseURL,
-            timeout,
-            headers,
-            withCredentials
+    constructor(config) {
+        // 创建axios实例
+        this.instance = axios.create(config)
+        this.interceptors = config.interceptors
+
+        // 使用拦截器
+        // 1.从config中取出的拦截器是对应的实例的拦截器
+        this.instance.interceptors.request.use(
+            this.interceptors?.requestInterceptor,
+            this.interceptors?.requestInterceptorCatch
+        )
+        this.instance.interceptors.response.use(
+            this.interceptors?.responseInterceptor,
+            this.interceptors?.responseInterceptorCatch
+        )
+
+        // 2.添加所有的实例都有的拦截器
+        this.instance.interceptors.request.use(
+            config => config,
+            err => err
+        )
+    }
+
+    request(config) {
+        return new Promise((resolve, reject) => {
+            // 1.单个请求对请求config的处理
+            if (config.interceptors?.requestInterceptor) {
+                config = config.interceptors.requestInterceptor(config)
+            }
+
+            this.instance.request(config).then(res => {
+                // 1.单个请求对数据的处理
+                if (config.interceptors?.responseInterceptor) {
+                    res = config.interceptors.responseInterceptor(res)
+                }
+                resolve(res)
+            }).catch(err => {
+                reject(err)
+                return err
+            })
         })
+    }
 
-        this.request.interceptors.request.use(config => {
-            return requestSuccessFn(config)
-        }, error => {
-            return requestErrorFn(error)
+    get(config) {
+        return this.request({
+            ...config,
+            method: 'GET'
         })
+    }
 
-        this.request.interceptors.response.use(response => {
-            return responseSuccessFn(config)
-        }, error => {
-            return responseErrorFn(error)
+    post(config) {
+        return this.request({
+            ...config,
+            method: 'POST'
         })
-
     }
 
-    get(url, config = {}) {
-        return this.request.get(url, config)
+    delete(config) {
+        return this.request({
+            ...config,
+            method: 'DELETE'
+        })
     }
 
-    post(url, data, config = {}) {
-        return this.request.post(url, data, config)
+    patch(config) {
+        return this.request({
+            ...config,
+            method: 'PATCH'
+        })
     }
-
-    put(url, data, config = {}) {
-        return this.request.put(url, data, config)
-    }
-
-    patch(url, data = null, config = {}) {
-        return this.request.patch(url, data, config)
-    }
-
-    delete(url, config = {}) {
-        return this.request.delete(url, config)
-    }
-
 }
 
-export default Request
+export default YHRequest

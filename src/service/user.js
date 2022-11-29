@@ -1,14 +1,11 @@
 import yhRequest from "./request/yhRequest";
 
-class UserService{
-    constructor(){
-        this.service = yhRequest
-    }
 
-    async login(loginForm){
-       const rst = await yhRequest.post('/login',loginForm)
-       return rst
-    }
+export async function login(loginForm) {
+    const rst = await yhRequest.post({ url: '/api/login', data: loginForm })
+    return rst
 }
 
-export default new UserService()
+export async function getPermission() {
+    const rst = await yhRequest.get({ url: '/api/permission' })
+}

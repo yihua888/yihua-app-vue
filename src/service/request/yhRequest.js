@@ -1,12 +1,31 @@
-import Request from "./index";
+import YHRequest from './index'
+import { getCache } from '@/utils/cache'
 
-// 最后封装到环境变量
-const BASE_URL = 'localhost"8080'
-
-const yhRequest = new Request(BASE_URL, 60000, config => config, error => {
-    return Promise.resolve(error)
-}, response => response, error => {
-    return Promise.resolve(error)
+// TODO:由环境变量注入
+const BASE_URL ='http://localhost:8080'
+const TIME_OUT = 60000
+const yhRequest = new YHRequest({
+    baseURL: BASE_URL,
+    timeout: TIME_OUT,
+    interceptors: {
+        requestInterceptor: (config) => {
+            // 携带token的拦截
+            const token = getCache('token')
+            if (token) {
+                config.headers.Authorization = `Bearer ${token}`
+            }
+            return config
+        },
+        requestInterceptorCatch: (err) => {
+            return err
+        },
+        responseInterceptor: (res) => {
+            return res
+        },
+        responseInterceptorCatch: (err) => {
+            return err
+        }
+    }
 })
 
 export default yhRequest

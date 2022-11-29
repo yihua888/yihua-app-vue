@@ -17,6 +17,11 @@ const defaultMenus = [
     component:()=>import('@/views/main/cpnViews/cpnViews.vue')
   },
   {
+    path:'/main/cpnInfo/:cpnId',
+    name: 'cpnInfo',
+    component:()=>import('@/views/main/cpnViews/cpnInfo.vue')
+  },
+  {
     path:'/main/mycase',
     name: 'mycase',
     component:()=>import('@/views/main/mycase/mycase.vue')
