@@ -11,7 +11,8 @@ export const useUserStore = defineStore({
             token: "",
             userInfo: {},
             userMenus: [],
-            operation: []
+            operation: [] ,
+            permission:[]
         }
     },
     actions: {
@@ -27,12 +28,26 @@ export const useUserStore = defineStore({
             setCache('operation',operation)
             this.operation = operation;
         },
-        changeUserMenus() {
-
+        async changeUserMenus(menus) {
+            this.userMenus = menus
+            setCache('userMenus',menus)
+            menus.forEach((route) => {
+                router.addRoute("main",{
+                    name:route.permissionName,
+                    type: route.type,
+                    icon : route.icon,
+                    pId : route.pId,
+                    path: route.path,
+                    component: () => import(route.cpnURL)
+                });
+            });
+        },
+        changePermission(permission){
+            setCache('permission',permission)
+            this.permission = permission;
         },
         async accountLoginAction(loginForm) {
             try {
-                // TODO:
                 const rst = await login(loginForm)
                 // 1.发送到服务器进行登录验证。
                 const {token,id} = rst.data
@@ -40,10 +55,22 @@ export const useUserStore = defineStore({
                 this.changeUserInfo({id,...loginForm})
                 // 请求权限及菜单
                 const rst1 = await getPermission()
-                console.log(rst1);
+                this.changePermission(rst1.data)
+                const menus = []
+                const operation = []
+                rst1.data.filter(item=>{
+                    if(item.type === 0){
+                        operation.push(item.permissionCode)
+                    }else if(item.permissionName !== "main"){
+                        menus.push(item)
+                    }
+                })
+                this.changeOperation(operation)
+                await this.changeUserMenus(menus)
                 // 2.跳转到主页
-                // router.push('/main')
+                router.push('/main')
             } catch (error) {
+                console.log(error);
                 ElMessage.error('账号或密码错误')
             }
         },

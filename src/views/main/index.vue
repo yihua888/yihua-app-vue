@@ -28,13 +28,12 @@
 <script setup>
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/store/user'
-import { deleteCache } from '@/utils/cache'
+import { deleteCache , getCache } from '@/utils/cache'
 
 const userStore = useUserStore()
 const router = useRouter()
 
-// TODO:拿到userName
-const userName = userStore.userInfo.name ?? 'yihua'
+const userName = userStore.userInfo.username || getCache('userInfo').username
 
 const handleExitClick = () => {
     deleteCache('token')

@@ -1,11 +1,6 @@
 import yhRequest from "./request/yhRequest";
 
 
-export async function login(loginForm) {
-    const rst = await yhRequest.post({ url: '/api/login', data: loginForm })
-    return rst
-}
+export const login = (loginForm) => yhRequest.post({ url: '/api/login', data: loginForm })
+export const getPermission = () => yhRequest.get({ url: '/api/permission' })
 
-export async function getPermission() {
-    const rst = await yhRequest.get({ url: '/api/permission' })
-}

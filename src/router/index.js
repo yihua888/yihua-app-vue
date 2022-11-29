@@ -2,46 +2,7 @@ import {
   createRouter,
   createWebHistory
 } from "vue-router";
-// import { getCache } from "@/utils/cache";
-
-// TODO:后续通过动态路由添加
-const defaultMenus = [
-  {
-    path:'/main/algorithm',
-    name: 'algorithm',
-    component:()=>import('@/views/main/algorithm/algorithm.vue')
-  },
-  {
-    path:'/main/cpnViews',
-    name: 'cpnViews',
-    component:()=>import('@/views/main/cpnViews/cpnViews.vue')
-  },
-  {
-    path:'/main/cpnInfo/:cpnId',
-    name: 'cpnInfo',
-    component:()=>import('@/views/main/cpnViews/cpnInfo.vue')
-  },
-  {
-    path:'/main/mycase',
-    name: 'mycase',
-    component:()=>import('@/views/main/mycase/mycase.vue')
-  },
-  {
-    path:'/main/myutils',
-    name: 'myutils',
-    component:()=>import('@/views/main/myutils/myutils.vue')
-  },
-  {
-    path:'/main/nodePlugin',
-    name: 'nodePlugin',
-    component:()=>import('@/views/main/nodePlugin/nodePlugin.vue')
-  },
-  {
-    path: '/main/sql',
-    name: 'sql',
-    component: import('@/views/main/sql/sql.vue')
-  }
-]
+import { getCache } from "@/utils/cache";
 
 const routes = [{
   path: "/login",
@@ -56,7 +17,7 @@ const routes = [{
     path: '/main/system',
     name: 'system',
     component: () => import('@/views/main/system/index.vue')
-  },...defaultMenus]
+  }]
 },
 {
   name: "NotFont",
@@ -78,5 +39,14 @@ router.beforeEach((to) => {
   if (to.path === '/main') {
     return 'main/system'
   }
+
+  if (to.path !== "/login") {
+    const token = getCache("token");
+    //  判断是否存在token
+    if (!token) {
+      return "/login";
+    }
+  }
+
 })
 export default router;
