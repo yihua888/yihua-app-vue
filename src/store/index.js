@@ -5,6 +5,7 @@ import { getCache } from "@/utils/cache";
 const store = createPinia()
 
 export const  useMenus = () => {
+    if(!getCache('userMenus')) return ;
     getCache('userMenus').forEach((route) => {
         router.addRoute("main",{
             name:route.permissionName,

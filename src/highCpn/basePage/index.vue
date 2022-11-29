@@ -1,14 +1,17 @@
 <template>
   <div class="page-box">
     <div class="top">
-      <yh-form v-bind="formConfig" v-model="formData">
-        <template #footer>
-          <div class="handle-btns">
-            <el-button :icon="Refresh" @click="handleResetClick">重置</el-button>
-            <el-button type="primary" :icon="Search" @click="handleQueryClick">搜索</el-button>
-          </div>
-        </template>
-      </yh-form>
+      <div class="form-box">
+        <yh-form v-bind="formConfig" v-model="formData">
+          <template #footer>
+            <div class="handle-btns">
+              <el-button :icon="Refresh" @click="handleResetClick">重置</el-button>
+              <el-button type="primary" :icon="Search" @click="handleQueryClick">搜索</el-button>
+            </div>
+          </template>
+        </yh-form>
+      </div>
+      <slot name="other"></slot>
     </div>
     <div class="content">
       <yh-table v-model:page="pageInfo" :listData="listData" :propList="tableCol" v-bind="tableConfig"
@@ -91,6 +94,13 @@ watch(
 <style lang="scss" scoped>
 .header {
   color: rgb(12, 11, 11);
+}
+
+.top {
+  display: flex;
+  .form-box{
+    flex: 1;
+  }
 }
 
 .handle-btns {
