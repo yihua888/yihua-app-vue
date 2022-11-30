@@ -9,7 +9,7 @@ export default {
     },
     formItems: [
       {
-        field: 'cpn_name',
+        field: 'cpnName',
         type: 'input',
         label: '组件代码',
         placeholder: '请输入组件代码'

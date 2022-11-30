@@ -8,7 +8,7 @@
                 <yh-form v-bind="formConfig" v-model="selfData.formData">
                 </yh-form>
                 <!-- 循环表格 -->
-                <div v-for="(tableItem) in tablesConfig" :key="tableItem.tableName">
+                <div v-for="(tableItem) in tablesConfig" :key="tableItem.tableName" class="table-box">
                     <div class="table-info">{{ tableItem.info }}</div>
                     <el-table :data="selfData[tableItem.tableName]" border>
                         <template v-for="propItem in tableItem.tableCol" :key="propItem.prop">
@@ -129,7 +129,6 @@ defineExpose({
 <style lang="scss" scoped>
 .dialog-content {
     overflow: hidden;
-    padding: 0 24px;
     display: flex;
     flex-direction: column;
 
@@ -140,6 +139,10 @@ defineExpose({
         .add-box {
             text-align: center;
             margin-top: 10px;
+        }
+
+        .table-box{
+            padding: 0 40px;
         }
     }
 

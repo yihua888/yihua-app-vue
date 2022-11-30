@@ -41,14 +41,16 @@ const queryInfo = reactive({
 
 const changePage = pageInfo => {
     // 发请求，更新数据
-    queryInfo.cpnName = pageInfo.cpnName
-    queryInfo.label = pageInfo.label
+   
+    queryInfo.limit = pageInfo.pageSize
+    queryInfo.offset = pageInfo.pageSize * (pageInfo.currentPage - 1)
     getList()
 }
 const query = querForm => {
+    console.log(querForm);
     // 发请求，更新数据
-    queryInfo.limit = querForm.pageSize
-    queryInfo.offset = querForm.pageSize * (querForm.currentPage - 1)
+    queryInfo.cpnName = querForm.cpnName
+    queryInfo.label = querForm.label
     getList()
 }
 
@@ -63,11 +65,11 @@ getList()
 const addDialog = ref(null)
 const add = () => addDialog.value.open()
 const save = async data => {
-    data.cpnName = data.formData.name
-    data.label = data.formData.label
-    data.info = data.formData.info
-    data.cpnUrl = data.formData.cpnUrl
-    data.blog = data.formData.blog
+    data = {
+        ...data,
+        ...data.formData
+    }
+    console.log(JSON.stringify(data));
     // 发送请求保存组件,也可以在此做数据校验
     if (!data.cpnName || !data.label || !data.info || !data.cpnUrl)
         return ElMessage.warning('请填写完整的组件信息')
