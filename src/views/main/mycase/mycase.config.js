@@ -9,13 +9,13 @@ export default {
     },
     formItems: [
       {
-        field: 'name',
+        field: 'caseName',
         type: 'input',
         label: '案例名称',
         placeholder: '请输入案例名称'
       },
       {
-        field: 'typeId',
+        field: 'caseType',
         type: 'input',
         label: '案例类型',
         placeholder: '请输入例类型'
@@ -24,14 +24,14 @@ export default {
   },
   tableCol: [
     {
-      prop: 'name', label: '组件代码', minWidth: '100'
+      prop: 'caseName', label: '组件代码', minWidth: '100'
     },
     {
-      prop: 'type', label: '案例类型', minWidth: '100'
+      prop: 'caseType', label: '案例类型', minWidth: '100'
     },
     {
       label: '操作', minWidth: '100',  slotName: 'handler',   align: 'center'
     }
   ],
-  tableConfig:{}
+  tableConfig: {}
 }
