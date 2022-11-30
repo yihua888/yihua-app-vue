@@ -9,22 +9,16 @@ export default {
     },
     formItems: [
       {
-        field: 'name',
+        field: 'utilName',
         type: 'input',
-        label: '案例名称',
-        placeholder: '请输入案例名称'
+        label: '工具名称',
+        placeholder: '请输入工具名称'
       },
       {
         field: 'typeId',
         type: 'input',
         label: '案例类型',
         placeholder: '请输入例类型'
-      },
-      {
-        field: 'caseCode',
-        type: 'input',
-        label: '案例展示地址',
-        placeholder: '请输入组件案例地址'
       }
     ]
   },
@@ -32,7 +26,7 @@ export default {
     {
       type: 'autoincrement',
       tableName: 'codes',
-      info: '案例代码',
+      info: '工具代码',
       tableCol: [
         {
           prop: 'filename', label: '文件名', minWidth: '100'
