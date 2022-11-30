@@ -28,7 +28,7 @@ const handleClickMenu = path => router.push(path)
 
     .menu-box {
         margin: 24px;
-        width: 30%;
+        width: calc(33.3% - 48px);
         height: 200px;
         border: 1px solid $blue;
         display: inline-block;
@@ -44,8 +44,8 @@ const handleClickMenu = path => router.push(path)
             margin: 20px;
         }
     }
-
-    .menu-box:hover{
+ 
+    .menu-box:hover {
         background-color: #1890FF11;
         color: $blue;
     }

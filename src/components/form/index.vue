@@ -8,7 +8,7 @@
         <template v-for="item in formItems" :key="item.label">
           <el-col v-bind="colLayout">
             <el-form-item v-if="!item.isHidden" :label="item.label" :rules="item.rules" :style="itemStyle">
-              <template v-if="item.type === 'input' || item.type === 'password'">
+              <template v-if="item.type === 'input' || item.type === 'password' || item.type === 'textarea' ">
                 <el-input :placeholder="item.placeholder" v-bind="item.otherOptions"
                   :show-password="item.type === 'password'" :model-value="modelValue[`${item.field}`]"
                   @update:modelValue="handleValueChange($event, item.field)" />
