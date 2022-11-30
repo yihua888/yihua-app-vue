@@ -9,7 +9,7 @@ export default {
     },
     formItems: [
       {
-        field: 'name',
+        field: 'cpn_name',
         type: 'input',
         label: '组件代码',
         placeholder: '请输入组件代码'
@@ -24,7 +24,7 @@ export default {
   },
   tableCol: [
     {
-      prop: 'name', label: '组件代码', minWidth: '100'
+      prop: 'cpn_name', label: '组件代码', minWidth: '100'
     },
     {
       prop: 'label', label: '组件名', minWidth: '100'

@@ -2,7 +2,7 @@ import YHRequest from './index'
 import { getCache } from '@/utils/cache'
 
 // TODO:由环境变量注入
-const BASE_URL ='http://localhost:8080'
+const BASE_URL ='http://localhost:8080/api'
 const TIME_OUT = 60000
 const yhRequest = new YHRequest({
     baseURL: BASE_URL,

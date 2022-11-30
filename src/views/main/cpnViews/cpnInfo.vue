@@ -29,33 +29,50 @@
                     {{ cpnInfo.info }}
                 </div>
             </div>
-            <div class="info-box" v-if="cpnInfo.attr && cpnInfo.attr.length">
+            <div class="info-box" v-if="cpnInfo.attrs && cpnInfo.attrs.length">
                 <div class="left">组件属性</div>
                 <div class="right">
-                    <li class="ml24" v-for="item in cpnInfo.attr" :key="item">{{ item }}</li>
+                    <el-table :data="cpnInfo.attrs" border>
+                        <template v-for="propItem in config.tablesConfig[0].tableCol" :key="propItem.prop">
+                            <el-table-column v-bind="propItem">
+                                <template #default="scope">
+                                    <el-switch v-if="propItem.type === 'switch'" v-model="scope.row[propItem.prop]" disabled />
+                                    <span v-else> {{ scope.row[propItem.prop] }} </span>
+                                </template>
+                            </el-table-column>
+                        </template>
+                    </el-table>
                 </div>
             </div>
             <div class="info-box" v-if="cpnInfo.methods && cpnInfo.methods.length">
                 <div class="left">组件方法</div>
                 <div class="right">
-                    <li class="ml24" v-for="item in cpnInfo.methods" :key="item">{{ item }}</li>
+                    <el-table :data="cpnInfo.methods" border>
+                        <template v-for="propItem in config.tablesConfig[2].tableCol" :key="propItem.prop">
+                            <el-table-column v-bind="propItem" />
+                        </template>
+                    </el-table>
                 </div>
             </div>
             <div class="info-box" v-if="cpnInfo.slots && cpnInfo.slots.length">
                 <div class="left">插槽</div>
                 <div class="right">
-                    <li class="ml24" v-for="item in cpnInfo.slots" :key="item">{{ item }}</li>
+                    <el-table :data="cpnInfo.slots" border>
+                        <template v-for="propItem in config.tablesConfig[3].tableCol" :key="propItem.prop">
+                            <el-table-column v-bind="propItem" />
+                        </template>
+                    </el-table>
                 </div>
             </div>
             <el-divider v-if="codeArr && codeArr.length" />
-            <div v-for="codeItem in codeArr" :key="codeItem.fileName">
+            <div v-for="codeItem in codeArr" :key="codeItem.filename">
                 <div class="copy-box">
-                    <span>文件名：{{ codeItem.fileName }}</span>
+                    <span>文件名：{{ codeItem.filename }}</span>
                     <span>
                         <el-button type="success" :icon="CopyDocument" circle @click="copyStr(codeItem.codeStr)" />
                     </span>
                 </div>
-                <codeMirror :code="codeItem.codeStr"></codeMirror>
+                <codeMirror :code="codeItem.codeStr" v-show="codeItem.showCode"></codeMirror>
             </div>
         </div>
     </div>
@@ -65,70 +82,27 @@
 <script setup>
 import { computed, defineAsyncComponent, ref } from 'vue'
 import router from '@/router'
-import { CopyDocument } from '@element-plus/icons-vue'
+import { CopyDocument , View} from '@element-plus/icons-vue'
 import codeMirror from '@/components/codeMirror/index.vue'
-// import { useCodeArr } from '@/hooks/useCodeArr.js'
+import { getCpnById } from '@/service/cpn.js'
+import { getFileByUrlArr } from '@/utils/getFile'
 import { copyStr } from '@/utils/copy'
-import fileService from '@/service/file.js';
+import config from './dialog.config'
 
-// console.log(getFile('test'));
 // 根据id获取详情
-const cpnInfo = {
-    "name": "yhDragCpn",
-    "label": "可拖拽树形组件",
-    "attr": [
-        "itemStyle：（对象，默认值：{}）单个item项的样式，更推荐使用类名drag-item去更改基本样式。被选中的会被添加active类名；",
-        "data：（数组）数据，默认值：[]）注意需要有id；",
-        "iconSize：（数字，默认值：14）树形节点图标的大小；",
-        "iconColor：（字符串，默认值：#FFFFFF）树形节点图标的颜色；",
-        "select：（数组，默认值：[]）默认选中的数据；",
-        "dragCheck：（数字，默认值：20）拖拽进入为子组件的触控区域；",
-        "styleId：（字符串，默认值：''）悬浮的id,悬浮的item会增加类名self_style；",
-        "isdbCancel：（布尔值，默认值：false）是否按两下取消选中。"
-    ],
-    "info": "树形可拖拽组件，单击可选中，shift+单击可选中一片区域，ctrl+单击多选。内容在插槽中自定义。",
-    "methods": [
-        "dragEnd：拖拽完成之后的回调，第一个参数是事件对象e，第二个参数是改变后的数据；",
-        "selectItem：选中的回调，第一个参数是事件对象e，第二个参数是当前选中的数据；",
-        "selectItems:选中数据改变的回调;",
-        "hoverItem：悬浮的回调，第一个参数是事件对象e，第二个参数是当前悬浮的数据；",
-        "moveItem：鼠标离开的回调，第一个参数是事件对象e，第二个参数是当前离开元素的数据；",
-        "handleDbClick：双击的回调，第一个参数是事件对象e，第二个参数是当前双击元素的数据；",
-        "onRightClick：右键鼠标的回调，第一个参数是事件对象e，第二个参数是当前右键元素的数据；",
-        "getSelectedList：组件方法，获取所有选中的数据；",
-        "setCheckedKeys：设置当前组件哪些元素被选中；",
-        "setShowChild：设置当前组件哪些元素应该被展开子元素。",
-        "changeshowChild：改变当前组件某个节点的孩子是否展示。"
-    ],
-    "slots": [
-        "content：参数是当前节点的数据。"
-    ],
-    "blog": "https://blog.csdn.net/weixin_45737062/article/details/127512928?spm=1001.2014.3001.5501",
-    "cpnCodes": [
-        {
-            "name": "test.vue",
-            "url": "/components/dragCpn/test.vue"
-        },
-        {
-            "name": "index.vue",
-            "url": "/components/dragCpn/index.vue"
-        },
-        {
-            "name": "yhdrag.vue",
-            "url": "/components/dragCpn/yhdrag.vue"
-        },
-        {
-            "name": "yhdragItem.vue",
-            "url": "/components/dragCpn/yhdragItem.vue"
-        }
-    ],
-    "cpnUrl": "/src/components/dragCpn/test.vue"
-}
+const cpnId = router.currentRoute.value.params.id
+const cpnInfo = ref({})
+const codeArr = ref([])
 
-const cpnInstance = computed(() => defineAsyncComponent(() => import(cpnInfo.cpnUrl)))
+const getInfo = async () => {
+    const { data } = await getCpnById(cpnId)
+    cpnInfo.value = data
+    codeArr.value = await getFileByUrlArr(data.codes)
+}
+getInfo()
+const cpnInstance = computed(() => defineAsyncComponent(() => import(cpnInfo.value.cpnUrl)))
 
 // 依据请求获取代码片段
-const codeArr = []
 const goback = () => router.go(-1)
 </script>
 
@@ -171,6 +145,12 @@ const goback = () => router.go(-1)
                 justify-content: center;
                 align-items: center;
             }
+        }
+
+        .copy-box{
+            display: flex;
+            justify-content: space-between;
+            margin : 24px;
         }
 
     }

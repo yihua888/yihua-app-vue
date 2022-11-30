@@ -111,7 +111,6 @@ const getIconStyle = () => ({
 })
 
 const showchilds = ref([])
-console.log(props.data);
 // 改变子集节点的显隐
 const changeshowChild = data => {
     const LEN =showchilds.value.length

@@ -14,7 +14,7 @@
       <slot name="other"></slot>
     </div>
     <div class="content">
-      <yh-table v-model:page="pageInfo" :listData="listData" :propList="tableCol" v-bind="tableConfig"
+      <yh-table v-model:page="pageInfo" :listData="tableData" :propList="tableCol" v-bind="tableConfig"
         :showIndexColumn="true" @selectionChange="selectionChange">
         <template v-for="item in tableSlots" :key="item.prop" #[item.slotName]="scope">
           <template v-if="item.slotName">
@@ -60,7 +60,6 @@ for (const item of formItems) {
 }
 
 const formData = ref(formOriginData)
-const listData = ref(props.tableData)
 const pageInfo = ref({ currentPage: 1, pageSize: 10 })
 
 // 插槽绑定

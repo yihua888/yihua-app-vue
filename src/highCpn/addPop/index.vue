@@ -101,14 +101,14 @@ props.tablesConfig.forEach(table => {
         id: id++
     }
     table.tableCol.forEach(item => {
-        table.defaultAdd[item.prop] = ''
+        table.defaultAdd[item.prop] =  item.type === 'switch' ? 0 : ''
     })
 
 })
 
 // 增加
 const add = (name, addValue) => {
-    selfData[name].push(addValue)
+    selfData[name].push(JSON.parse(JSON.stringify(addValue)))
 }
 
 // 删除

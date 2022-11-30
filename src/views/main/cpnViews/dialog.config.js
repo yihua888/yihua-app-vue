@@ -43,7 +43,7 @@ export default {
     tablesConfig:[
         {
             type:"autoincrement",
-            tableName:"attr",
+            tableName:"attrs",
             info:"组件属性",
             tableCol:[
                 {
