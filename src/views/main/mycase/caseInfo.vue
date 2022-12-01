@@ -34,12 +34,12 @@ import { copyStr } from '@/utils/copy'
 import config from './dialog.config'
 
 // 根据id获取详情
-const cpnId = router.currentRoute.value.params.id
+const id = router.currentRoute.value.params.id
 const caseInfo = ref({})
 const codeArr = ref([])
 
 const getInfo = async () => {
-    const { data } = await getCaseById(cpnId)
+    const { data } = await getCaseById(id)
     caseInfo.value = data
     codeArr.value = await getFileByUrlArr(data.codes)
 }

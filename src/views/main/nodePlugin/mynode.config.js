@@ -9,7 +9,7 @@ export default {
     },
     formItems: [
       {
-        field: 'name',
+        field: 'pluginName',
         type: 'input',
         label: '脚本名称',
         placeholder: '请输入案例脚本'
@@ -24,7 +24,7 @@ export default {
   },
   tableCol: [
     {
-      prop: 'name', label: '脚本名称', minWidth: '100'
+      prop: 'pluginName', label: '脚本名称', minWidth: '100'
     },
     {
       prop: 'info', label: '脚本介绍', minWidth: '100'

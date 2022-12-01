@@ -13,12 +13,6 @@ export default {
         type: 'input',
         label: '工具名称',
         placeholder: '请输入工具名称'
-      },
-      {
-        field: 'utilCode',
-        type: 'input',
-        label: '工具展示地址',
-        placeholder: '请输入工具展示地址'
       }
     ]
   },
