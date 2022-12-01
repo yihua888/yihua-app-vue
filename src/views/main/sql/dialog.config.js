@@ -17,7 +17,7 @@ export default {
       {
         field: 'codeUrl',
         type: 'input',
-        label: '案例类型',
+        label: 'sql地址',
         placeholder: '请输入sql地址'
       }
     ]

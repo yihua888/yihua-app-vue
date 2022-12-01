@@ -5,7 +5,7 @@ export default {
       padding: '10px 40px'
     },
     colLayout: {
-      span: 6
+      span: 12
     },
     formItems: [
       {
@@ -16,28 +16,26 @@ export default {
       },
       {
         field: 'algorithmType',
-        type: 'input',
-        label: '类型代码',
-        placeholder: '请输入类型代码'
+        type: 'select',
+        label: '算法类型',
+        placeholder: '请选择算法类型',
+        options: []
       }
     ]
   },
   tableCol: [
     {
-      prop: 'algorithmName', label: 'code', minWidth: '100'
+      prop: 'name', label: 'code', minWidth: '100'
     },
     {
       prop: 'label', label: '名称', minWidth: '100'
     },
     {
-      prop: 'type', label: '类型代码', minWidth: '100'
-    },
-    {
-      prop: 'algorithmType', label: '类型名称', minWidth: '100'
+      prop: 'type', label: '类型', minWidth: '100'
     },
     {
       label: '操作', minWidth: '100',  slotName: 'handler',  align: 'center'
     }
   ],
-  tableConfig:{}
+  tableConfig: {}
 }

@@ -11,7 +11,7 @@ export default {
       {
         field: 'pluginName',
         type: 'input',
-        label: '案例名称',
+        label: '插件名称',
         placeholder: '请输入插件名'
       },
       {
@@ -23,7 +23,7 @@ export default {
       {
         field: 'codeUrl',
         type: 'input',
-        label: '案例类型',
+        label: '插件地址',
         placeholder: '请输入插件地址'
       }
     ]

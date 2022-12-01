@@ -1,5 +1,5 @@
 <template>
-    <el-dialog v-model="showDialog" :title="title">
+    <el-dialog v-model="showDialog" :title="title" :close-on-click-modal="false" :destroy-on-close="true">
         <div class="dialog-content" :style="{ height: `${contentHeight}px` }">
             <div class="top">
                 <slot name="top"></slot>
