@@ -26,6 +26,14 @@
                   :model-value="modelValue[`${item.field}`]" @update:modelValue="handleValueChange($event, item.field)">
                 </el-date-picker>
               </template>
+              <template v-else-if="item.type === 'image'">
+                <upload :fileType="'image'"   v-bind="item.otherOptions" 
+                  :model-value="modelValue[`${item.field}`]" @update:modelValue="handleValueChange($event, item.field)"  />
+              </template>
+              <template v-else-if="item.type === 'file'">
+                <upload :fileType="'file'"   v-bind="item.otherOptions" 
+                  :model-value="modelValue[`${item.field}`]" @update:modelValue="handleValueChange($event, item.field)"  />
+              </template>
             </el-form-item>
           </el-col>
         </template>
@@ -39,6 +47,7 @@
 
 <script setup>
 import { defineEmits, defineProps } from 'vue'
+import upload from '@/components/upload/index.vue';
 const prop = defineProps({
   modelValue: {
     type: Object,

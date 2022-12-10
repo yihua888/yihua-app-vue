@@ -20,6 +20,11 @@ const routes = [{
   }]
 },
 {
+  path: "/test",
+  name: "test",
+  component: () => import("@/views/test/index.vue"),
+},
+{
   name: "NotFont",
   path: '/:pathMatch(.*)*',
   component: () => import('@/views/NotFont/index.vue'),

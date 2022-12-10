@@ -1,6 +1,8 @@
-import yhRequest from "./request/yhRequest";
-
+import yhRequest from './request/yhRequest'
 
 export const login = (loginForm) => yhRequest.post({ url: '/login', data: loginForm })
-export const getPermission = () => yhRequest.get({ url: '/permission' })
 
+export const getUser = (data) => yhRequest.get({ url: '/users',  params: data})
+export const getUserById = id => yhRequest.get({ url: `/users/${id}`})
+export const getPermission = () => yhRequest.get({ url: '/permission' })
+export const updateUser = data => yhRequest.patch({ url:'/users' , data})

@@ -1,6 +1,5 @@
 import { getFile } from '@/service/file.js'
 
-
 export const getFileByUrlArr = (urlArr) => new Promise(async (resolve,reject)=>{
     const codeArr = []
     if (typeof urlArr === 'string') {
@@ -26,5 +25,13 @@ export const getFileByUrlArr = (urlArr) => new Promise(async (resolve,reject)=>{
 
 })
 
+export const fileToBase64 = file => new Promise((resolve,reject)=>{
+    let reader = new FileReader();
+    reader.readAsDataURL(file)
+    reader.onload = e => {
+        resolve(e.target.result)
+    }
 
+    reader.onerror = err => reject(err)
+})
 

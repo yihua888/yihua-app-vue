@@ -78,6 +78,7 @@ const toMain = () => router.push('/main/system')
         flex: 1;
         background-color: $bgc;
         overflow: hidden;
+        background-image: url('../../assets/svg/login-bg.svg');
     }
 }
 </style>

@@ -44,7 +44,7 @@
 </template>
 
 <script setup>
-import { ref, defineProps, defineEmits, defineExpose, reactive } from 'vue'
+import { ref, defineProps, defineEmits, defineExpose, reactive, watch } from 'vue'
 import { Plus, DeleteFilled } from '@element-plus/icons-vue'
 import yhForm from '@/components/form/index.vue'
 import yhTable from '@/components/table/index.vue'
@@ -68,7 +68,7 @@ const props = defineProps({
     },
     modalData: {
         type: Object,
-        default: () => { }
+        default: () => {}
     }
 })
 
@@ -81,16 +81,26 @@ const selfData = reactive({
     formData: {}
 })
 
-if (props.modalData?.formData) {
-    selfData.formData = props.modalData.formData
-} else {
-    const formItems = props.formConfig.formItems ?? []
-    const formOriginData = {}
-    for (const item of formItems) {
-        formOriginData[item.field] = ''
+
+watch(
+    ()=>props.modalData,
+    () => {
+        if (props.modalData?.formData) {
+            selfData.formData = props.modalData.formData
+        } else {
+            const formItems = props.formConfig.formItems ?? []
+            const formOriginData = {}
+            for (const item of formItems) {
+                formOriginData[item.field] = ''
+            }
+            selfData.formData = formOriginData
+        }
+    },
+    {
+        immediate:true,
+        deep:true
     }
-    selfData.formData = formOriginData
-}
+)
 
 let id = 0;
 // 初始化数据

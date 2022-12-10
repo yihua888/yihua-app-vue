@@ -19,11 +19,10 @@ import { useMenus } from '@/store'
 
 // 创建vue实例
 const app = createApp(App)
-
+useMenus()
 // 挂载pinia
 app.use(store)
 app.use(router)
-useMenus()
 app.use(globalRegister)
 // 挂载实例
 app.mount('#app')
