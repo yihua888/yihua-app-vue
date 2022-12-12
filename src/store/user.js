@@ -50,9 +50,9 @@ export const useUserStore = defineStore({
             try {
                 const rst = await login(loginForm)
                 // 1.发送到服务器进行登录验证。
-                const {token,id} = rst.data
+                const {token,id,avatar} = rst.data
                 this.changeToken(token)
-                this.changeUserInfo({id,...loginForm})
+                this.changeUserInfo({id,...loginForm,avatar:avatar[0]?.url})
                 // 请求权限及菜单
                 const rst1 = await getPermission()
                 this.changePermission(rst1.data)

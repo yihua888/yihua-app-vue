@@ -65,8 +65,7 @@ const save = data => {
       formData.append(key,data.formData[key])
     else {
       data.formData.avatar.forEach(file=>{
-        console.log(file);
-        formData.append(`file_${file.name}`,file)
+        formData.append(file.name,file)
       })
     }
   })
