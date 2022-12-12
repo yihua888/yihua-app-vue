@@ -1,6 +1,6 @@
 <template>
   <div class="top">
-    <el-button type="success" :icon="Plus" circle size="small" @click="add(scope.row)"></el-button>
+    <el-button type="success" :icon="Plus" circle size="small" @click="add"></el-button>
   </div>
   <div class="content">
     <yh-table :listData="list" :propList="config.tableCol" v-bind="config.tableConfig">
