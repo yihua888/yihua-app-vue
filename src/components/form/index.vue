@@ -21,6 +21,10 @@
                     :label="option.title"></el-option>
                 </el-select>
               </template>
+              <template v-else-if="item.type === 'cascader'">
+                <el-cascader :model-value="modelValue[`${item.field}`]" :placeholder="item.placeholder" :options="item.options" 
+                :props="item.props" v-bind="item.otherOptions" style="width: 100%" />
+              </template>
               <template v-else-if="item.type === 'datepicker'">
                 <el-date-picker style="width: 100%" v-bind="item.otherOptions"
                   :model-value="modelValue[`${item.field}`]" @update:modelValue="handleValueChange($event, item.field)">

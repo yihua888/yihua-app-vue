@@ -13,36 +13,71 @@
         </template>
       </yh-table>
   </div>
+  <add-pop ref="proDialog" v-bind="dialogConfig" :modalData="modalData" :title="modalData.formData.id?'编辑':'新增'" @save="save"></add-pop>
 </template>
 
 <script setup> 
-import { ref } from 'vue'
+import { ref , reactive} from 'vue'
 import { Plus , Edit ,DeleteFilled } from '@element-plus/icons-vue'
 import yhTable from '@/components/table/index.vue'
+import addPop from '@/highCpn/addPop/index.vue'
+import { getPermissionList , createPermission , updatePermission , removePermission} from '@/service/promission'
 import { getCache } from '@/utils/cache'
+import { tableCol , dialogConfig } from './promission.config'
+import { ElMessage } from 'element-plus'
 
 const permission = ref([])
-permission.value = getCache('permission').slice(1)
-const tableCol = [
-  { prop: 'permissionName', label: 'name', minWidth: '100' },
-  { prop: 'permissionCode', label: 'code', minWidth: '100' },
-  { prop: 'path', label: 'path', minWidth: '100' },
-  { prop: 'icon', label: 'icon', minWidth: '100' },
-  { prop: 'cpnURL', label: 'cpnURL', minWidth: '100' },
-  { prop: 'type', label: '类型', minWidth: '100' , slotName:'type'},
-  { label: '操作', minWidth: '100' , slotName:'handler'}
-]
+
+const getList = () => {
+  getPermissionList().then(res=>{
+    permission.value = res.data
+  })
+}
+
+getList()
+
+const proDialog = ref(null)
+const modalData = reactive({
+  formData:{}
+})
+
 
 const edit = row => {
-
+  modalData.formData = row
+  proDialog.value.open()
 }
 
 const add = () => {
-
+  modalData.formData = {
+    permissionName:null,
+    permissionCode:null,
+    path:null,
+    icon:null,
+    cpnURL:null,
+    type:null,
+    pId:null
+  }
+  proDialog.value.open()
 }
 
-const remove = () => {
+const remove = (row) => {
+  removePermission(row.id).then(res=>{
+    getList()
+  })
+}
 
+const save = async (data) => {
+  // 验证规则
+  if(!data.formData.permissionName|| (!data.formData.type && data.formData.type !== 0))
+  return ElMessage.warning('请填写正确的权限')
+  if(data.formData.id){
+    // 编辑
+    updatePermission(data.permission)
+  }else{
+    // 新增
+    createPermission(data.permission)
+  }
+  getList()
 }
 </script>
 

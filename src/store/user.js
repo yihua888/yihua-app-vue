@@ -61,7 +61,7 @@ export const useUserStore = defineStore({
                 rst1.data.filter(item=>{
                     if(item.type === 0){
                         operation.push(item.permissionCode)
-                    }else if(item.permissionName !== "main"){
+                    }else if(item.permissionName !== "main" && item.type > 0){
                         menus.push(item)
                     }
                 })

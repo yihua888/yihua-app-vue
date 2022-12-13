@@ -25,6 +25,8 @@ getRoles().then(res => {
   list.value = res.data
 })
 
+// permission.value = getCache('permission').slice(1)
+
 const remove = () => {}
 
 const editRole = () => {}
