@@ -3,6 +3,7 @@
     <basePage v-bind="pageConfig" :tableData="userList" @changePage="changePage" @query="query">
         <template #handler="{ row }">
             <el-button @click="edit(row)">编辑</el-button>
+            <el-button @click="remove(row)">删除</el-button>
         </template>
     </basePage>
     <add-pop ref="editDialog" v-bind="editConfig" :modalData="modalData" title="编辑" @save="save"></add-pop>
@@ -12,9 +13,10 @@
 <script setup>
 import { ref, reactive } from 'vue'
 import { ElMessage } from 'element-plus';
+import { Plus } from '@element-plus/icons-vue'
 import basePage from '@/highCpn/basePage/index.vue'
 import addPop from '@/highCpn/addPop/index.vue'
-import {  getUser , getUserById, updateUser } from '@/service/user.js'
+import {  getUser , getUserById, updateUser , removeUser } from '@/service/user.js'
 import { isOpration } from '@/hooks/useOpration'
 import config from './user.config'
 import editConfig from './userDialog.config'
@@ -72,6 +74,12 @@ const save = async data => {
   await updateUser(formData)
   editDialog.value.close()
 }
+
+const remove = async (row) => {
+  await removeUser(row.id)
+  getList()
+}
+
 </script>
 
 <style lang="scss" scoped>

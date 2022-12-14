@@ -14,9 +14,8 @@
             </div>
             <div class="account-control">
                 <el-checkbox v-model="isKeepPassword">记住密码</el-checkbox>
-                <el-link type="primary">忘记密码</el-link>
+                <el-link type="primary" @click="register">注册</el-link>
             </div>
-
             <el-button type="primary" class="login-btn" @click="handleLoginClick">立即登录</el-button>
         </div>
     </div>
@@ -26,6 +25,8 @@
 import { reactive, ref } from 'vue'
 import { useUserStore  } from '@/store/user'
 import { getCache, setCache, deleteCache } from '@/utils/cache'
+import { ElMessage } from 'element-plus'
+import { registerUser } from '@/service/user.js'
 
 const isKeepPassword = ref(false)
 const formRef = ref(null)
@@ -53,6 +54,16 @@ const handleLoginClick = (isKeepPassword) => {
             userStore.accountLoginAction(account)
         }
     })
+}
+
+const register = async () => {
+    if(!account.username || !account.password){
+        return ElMessage.error('请先填写账号及密码')
+    }
+    const rst = await registerUser(account)
+    if(rst.status === 200)
+        ElMessage.success('注册成功')
+    else ElMessage.error(rst.response.data)
 }
 
 </script>
