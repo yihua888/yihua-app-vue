@@ -101,8 +101,10 @@ const dialogConfig = {
   tablesConfig: []
 }
 
+let permissions = null
+
 getPermissionList().then(res => {
-  dialogConfig.formConfig.formItems[6].options = arrayToTree(res.data.map(item => ({
+  permissions = dialogConfig.formConfig.formItems[6].options = arrayToTree(res.data.map(item => ({
     label: item.permissionName,
     value: item.id,
     id: item.id,
@@ -111,4 +113,4 @@ getPermissionList().then(res => {
   })))
 })
 
-export { tableCol, dialogConfig }
+export { tableCol, dialogConfig , permissions}

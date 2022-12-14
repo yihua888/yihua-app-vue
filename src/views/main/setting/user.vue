@@ -58,7 +58,7 @@ const edit = async row => {
   editDialog.value.open()
 }
 
-const save = data => {
+const save = async data => {
   const formData = new FormData()
   Object.keys(data.formData).forEach(key=>{
     if(key !== 'avatar')
@@ -69,7 +69,8 @@ const save = data => {
       })
     }
   })
-  updateUser(formData)
+  await updateUser(formData)
+  editDialog.value.close()
 }
 </script>
 

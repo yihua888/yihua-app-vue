@@ -67,16 +67,26 @@ const remove = (row) => {
 }
 
 const save = async (data) => {
+  const formData = data.formData
   // 验证规则
-  if(!data.formData.permissionName|| (!data.formData.type && data.formData.type !== 0))
-  return ElMessage.warning('请填写正确的权限')
-  if(data.formData.id){
+  if(!formData.permissionName || (!formData.type && formData.type !== 0) || !formData.pId)
+    return ElMessage.warning('请填写正确的权限')
+  formData.pId = formData.pId[formData.pId.length-1]
+    // 按钮必填code和pid、
+  if(formData.type === 0 && !formData.permissionCode)
+    return ElMessage.warning('按钮必填code')
+    // 非路由页面
+  if(formData.type > 0 && (!formData.path || !formData.cpnURL))
+    return ElMessage.warning('路由必填path、cpnURL')
+
+  if(formData.id){
     // 编辑
-    updatePermission(data.permission)
+   await updatePermission(formData)
   }else{
     // 新增
-    createPermission(data.permission)
+   await createPermission(formData)
   }
+  proDialog.value.close()
   getList()
 }
 </script>

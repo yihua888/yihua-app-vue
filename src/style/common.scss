@@ -77,7 +77,7 @@ a:focus {
 }
 
 // 页面版心
-.page-box{
+.page-box {
     width: 80%;
     margin: 24px auto;
     height: calc(100% - 98px);
@@ -87,7 +87,12 @@ a:focus {
     overflow: auto;
     display: flex;
     flex-direction: column;
-    .content{
+
+    .content {
         flex: 1;
     }
+}
+
+.text-end {
+    text-align: end;
 }
