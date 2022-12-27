@@ -8,7 +8,7 @@
                 <yh-form v-bind="formConfig" v-model="selfData.formData">
                 </yh-form>
                 <!-- 循环表格 -->
-                <div v-for="(tableItem) in tablesConfig" :key="tableItem.tableName" class="table-box">
+                <div v-for="(tableItem,index) in tablesConfig" :key="tableItem.tableName" class="table-box">
                     <div class="table-info">{{ tableItem.info }}</div>
                     <el-table :data="selfData[tableItem.tableName]" border>
                         <template v-for="propItem in tableItem.tableCol" :key="propItem.prop">
@@ -22,7 +22,7 @@
                         <el-table-column label="操作" align="center" width="200">
                             <template #default="scope">
                                 <el-button type="danger" :icon="DeleteFilled" circle size="small"
-                                    @click="del(tableItem.tableName, scope.row.id)" />
+                                    @click="del(tableItem.tableName, scope.row.id,index)" />
                             </template>
                         </el-table-column>
                     </el-table>
@@ -122,8 +122,8 @@ const add = (name, addValue) => {
 }
 
 // 删除
-const del = (name, id) => {
-    selfData[name] = selfData[name].filter((o) => o.id !== id)
+const del = (name, id, index) => {
+    selfData[name] = selfData[name].filter((o,ind) => o.id ? o.id !== id: index !== ind)
 }
 
 // 保存
