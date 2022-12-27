@@ -9,8 +9,8 @@
           {{ row.type ? '路由' : '按钮' }}
         </template>
         <template #handler="scope">
-          <el-button type="primary" :icon="Edit" circle size="small" @click="edit(scope.row)"></el-button>
-          <el-button type="danger" :icon="DeleteFilled" circle size="small" @click="remove(scope.row)"></el-button>
+          <el-button type="primary" text :icon="Edit"  @click="edit(scope.row)">编辑</el-button>
+          <el-button type="primary" text :icon="DeleteFilled"  @click="remove(scope.row)">删除</el-button>
         </template>
       </yh-table>
     </div>

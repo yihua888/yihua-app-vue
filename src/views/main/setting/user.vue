@@ -2,8 +2,8 @@
   <div class="user">
     <basePage v-bind="pageConfig" :tableData="userList" @changePage="changePage" @query="query">
         <template #handler="{ row }">
-            <el-button @click="edit(row)">编辑</el-button>
-            <el-button @click="remove(row)">删除</el-button>
+            <el-button type="primary" text :icon="Edit" @click="edit(row)">编辑</el-button>
+            <el-button type="primary" text :icon="DeleteFilled"  @click="remove(row)">删除</el-button>
         </template>
     </basePage>
     <add-pop ref="editDialog" v-bind="editConfig" :modalData="modalData" title="编辑" @save="save"></add-pop>
@@ -13,7 +13,7 @@
 <script setup>
 import { ref, reactive } from 'vue'
 import { ElMessage } from 'element-plus';
-import { Plus } from '@element-plus/icons-vue'
+import { Plus , Edit, DeleteFilled } from '@element-plus/icons-vue'
 import basePage from '@/highCpn/basePage/index.vue'
 import addPop from '@/highCpn/addPop/index.vue'
 import {  getUser , getUserById, updateUser , removeUser } from '@/service/user.js'
