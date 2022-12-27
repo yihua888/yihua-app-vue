@@ -35,6 +35,7 @@
             <div class="bottom">
                 <slot name="bottom">
                     <div class="end">
+                        <el-button size="small" @click="close">取消</el-button>
                         <el-button type="primary" size="small" @click="save">保存</el-button>
                     </div>
                 </slot>
