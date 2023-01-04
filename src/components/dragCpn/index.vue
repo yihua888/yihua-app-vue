@@ -1,5 +1,5 @@
 <template>
-    <yhdrag :data="data" :drag-check="dragCheck" :showchilds="showchilds" @dragEnd="dragEnd">
+    <yhdrag ref="yhDrag" :data="data" :drag-check="dragCheck" :showchilds="showchilds" @dragEnd="dragEnd">
         <template #content="{ scope }">
             <div
                 :class="getClass(scope.data)" :style="getStyle(scope.$level)"
@@ -52,8 +52,9 @@
  * onRightClick：右键鼠标的回调，第一个参数是事件对象e，第二个参数是当前右键元素的数据；
  * getSelectedList：组件方法，获取所有选中的数据；
  * setCheckedKeys：设置当前组件哪些元素被选中；
- * setShowChild：设置当前组件哪些元素应该被展开子元素。
- * changeshowChild：改变当前组件某个节点的孩子是否展示。
+ * setShowChild：设置当前组件哪些元素应该被展开子元素；
+ * changeshowChild：改变当前组件某个节点的孩子是否展示；
+ * goToItem：滑动到某一项。
  * <================================================================================================
  */
 import { CaretRight, CaretBottom } from '@element-plus/icons-vue'
@@ -241,11 +242,64 @@ const handleDbClick = (e, data) => emits('handleDbClick', e, data)
 const moveItem = (e, data) => emits('moveItem', e, data)
 // 右键鼠标
 const onRightClick = (e, data) => emits('onRightClick', e, data)
+// 滚动到某项
+const yhDrag = ref(null)
+const goToItem = id => {
+    let count = 0 , needChanges = [] ,  supCount = 0;
+    // 1.首先找到父级节点，并且拿到上级已经展开了多少。
+    const visit = (arr, pRoot, targetId, show , level = 0) => { 
+        let rst = null
+        arr.some((root,index)=>{
+            // 因为需要找第一级的父级，所以每次第一级需要重置
+            if(level === 0){
+                needChanges = []
+                pRoot = null
+                supCount = 0
+            }
 
-defineExpose({ getSelectedList, setCheckedKeys, changeshowChild , setShowChild})
+            // 如果是显示在页面才需要计算高度
+            if(show){
+                count++
+            }else{
+                supCount++
+            }
+
+            !pRoot && (pRoot = root);
+            // 找到target
+            if(root.id === targetId){
+                rst = pRoot
+                return true
+            }
+
+            const curShowChild = showchilds.value.includes(root.id)
+
+            if(root.children && root.children.length){
+                rst =  visit(root.children, pRoot, targetId , show && curShowChild, level + 1)
+                if(!!rst && !curShowChild){
+                    needChanges.push(root)
+                }
+                if(!rst && !(show && curShowChild)){
+                    supCount -= root.children.length
+                }
+                return !!rst
+            }
+        })
+        return rst
+    }
+   
+    visit(props.data,null,id, true)
+    // 展开
+    needChanges.forEach(item=> changeshowChild(item))
+    // 滚动
+    yhDrag.value.$el.scrollTo({
+        top:(count + supCount - 1) * 60,
+        behavior:'smooth'
+    })
+}
+defineExpose({ getSelectedList, setCheckedKeys, changeshowChild , setShowChild , goToItem})
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .drag-item {
     display: flex;
     cursor: pointer;
